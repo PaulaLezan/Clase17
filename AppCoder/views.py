@@ -22,5 +22,9 @@ def profesores (request):
 def estudiantes (request):
     return render (request, "AppCoder/estudiantes.html")
 
+def cursoFormulario (request):
+    return render (request, "AppCoder/cursoFormulario.html")
+    
+
 def entregables (request):
     return render (request, "AppCoder/entregables.html")
