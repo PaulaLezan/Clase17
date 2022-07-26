@@ -8,20 +8,20 @@
     <title>Document</title>
 </head>
 <body>
-    <h1> FORMULARIO DE PROFES </h1>
+
+    <h1> FORMULARIO DE CURSOS </h1>
 
     {% if formulario.errors %}
         <p style="color: red"> HAY ALGO MAL EN EL FORMULARIO </p>
     {% endif %}
 
-    <form action= " {% url 'profeFormulario' %} " method="POST"> {% csrf_token %}
-        <table> 
+    <form action= " {url 'cursoFormulario' } " method="GET"> {% csrf_token %}
+       
+        <input type="number", name="comision" id="comision">
+        
 
-            {{ formulario.as_table }}
 
-        </table>
-
-        <input type="submit", value="Enviar">
+        <input type="submit", value="Buscar">
 
 
 </form>

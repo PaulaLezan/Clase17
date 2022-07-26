@@ -1,7 +1,6 @@
 from http.client import HTTPResponse
-import re
 from django.shortcuts import render
-from AppCoder.models import Curso, Profesor   
+from .models import Curso, Profesor   
 from AppCoder.forms import CursoForm, ProfeForm
 
 
@@ -50,7 +49,7 @@ def cursoFormulario (request):
 
 def profeFormulario (request):
 
-    if (request.method == "POST"):
+    if request.method == "POST":
 
         form= ProfeForm(request.POST) #VIENEN LOS DATOS DE UNA CLASE FORMULARIO
         print(form)
@@ -62,8 +61,8 @@ def profeFormulario (request):
             apellido= info["apellido"]
             email= info["email"]
             profesion= info["profesion"]
-            profe= Profesor(nombre=nombre, apellido=apellido, email=email, profesion=profesion)
-            profe.save()
+            profesor = Profesor(nombre=nombre, apellido=apellido, email=email, profesion=profesion)
+            profesor.save()
             return render (request, "AppCoder/inicio.html")
 
     else: 
@@ -71,7 +70,8 @@ def profeFormulario (request):
     return render (request, "AppCoder/profeForm.html", {"formulario":form}) #traigo el cursoform, lo renderiso y lo mando por diccionario
             #si va por get, le muestra un form vacio y lo llena, cuando lo llena, vuelve a entrar pero por POST. 
 
-
+def busquedaComision (request):
+     return render (request, "AppCoder/busquedacomision.html")
     
 
 
