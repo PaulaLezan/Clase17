@@ -9,13 +9,18 @@
 </head>
 <body>
 
-    <h1> FORMULARIO DE CURSOS </h1>
+    <h1> FORMULARIO DE BUSQUEDA DE CURSOS </h1>
 
     {% if formulario.errors %}
         <p style="color: red"> HAY ALGO MAL EN EL FORMULARIO </p>
     {% endif %}
 
-    <form action= " {url 'cursoFormulario' } " method="GET"> {% csrf_token %}
+    {% if error %}
+        <p style="color:red"> {{ error }}</p>
+
+    {% endif %}
+
+    <form action= " {% url 'buscar' %} " method="GET"> {% csrf_token %}
        
         <input type="number", name="comision" id="comision">
         

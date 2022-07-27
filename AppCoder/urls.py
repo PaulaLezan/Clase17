@@ -12,5 +12,9 @@ urlpatterns = [
        path('', inicio, name='inicio'), #que si no le pongo nada, que vaya a inicio
        path('cursoFormulario/', cursoFormulario, name='cursoFormulario'),
        path('profeFormulario/', profeFormulario, name='profeFormulario'),
+       path ('busquedaComision/', busquedaComision, name='busquedaComision'), 
+       path ('buscar/', buscar, name= 'buscar'), 
+
+
 
 ]

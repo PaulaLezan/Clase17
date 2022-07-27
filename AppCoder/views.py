@@ -72,7 +72,16 @@ def profeFormulario (request):
 
 def busquedaComision (request):
      return render (request, "AppCoder/busquedacomision.html")
-    
+
+def buscar (request):
+    if request.GET ("comision"):   #si tengo algo en comision: 
+        comi= request.GET ("comision") #que me la traiga
+        cursos= Curso.objects.filter(comision= comi) #del models Curso, traeme todo los objetos (de curso) que cumplan esa condicion y lo incluye en una lista
+        return render (request, 'AppCoder/resultadosBusqueda.html', {"cursos":curso})
+    else: 
+        return (request, 'AppCoder/busquedaComision.html', {"error":"No se ingreso ninguna comision"})
+  
+
 
 
 """def cursoFormulario (request):
