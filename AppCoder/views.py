@@ -1,5 +1,5 @@
 from http.client import HTTPResponse
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from .models import Curso, Profesor   
 from AppCoder.forms import CursoForm, ProfeForm
 
@@ -74,12 +74,20 @@ def busquedaComision (request):
      return render (request, "AppCoder/busquedacomision.html")
 
 def buscar (request):
-    if request.GET ("comision"):   #si tengo algo en comision: 
+    comision= request.GET.get("comision")
+    respuesta= f"Estoy buscando la comision:{comision}"
+    return HttpResponse (respuesta)
+
+
+
+
+""" if request.GET ("comision"):   #si tengo algo en comision
         comi= request.GET ("comision") #que me la traiga
         cursos= Curso.objects.filter(comision= comi) #del models Curso, traeme todo los objetos (de curso) que cumplan esa condicion y lo incluye en una lista
         return render (request, 'AppCoder/resultadosBusqueda.html', {"cursos":curso})
-    else: 
-        return (request, 'AppCoder/busquedaComision.html', {"error":"No se ingreso ninguna comision"})
+        
+ else: 
+        return (request, 'AppCoder/busquedaComision.html', {"error":"No se ingreso ninguna comision"})"""
   
 
 
