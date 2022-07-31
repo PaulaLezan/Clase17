@@ -1,8 +1,9 @@
 from http.client import HTTPResponse
 from django.shortcuts import render, HttpResponse
-from .models import Curso, Profesor   
+from .models import Curso, Estudiante, Profesor   
 from AppCoder.forms import CursoForm, ProfeForm
 from django.http import HttpResponse
+from django.views.generic import ListView, DetailView
 
 # Create your views here.
 
@@ -110,9 +111,14 @@ def editarProfesor (request, nombre_profesor):
     return render (request, 'AppCoder/editarProfesor.html', {"formulario":form, "nombre_profesor":nombre_profesor}) 
 
 
+#vistas basadas en clases
+class EstudianteList(ListView):
+    model= Estudiante
+    template_name= "AppCoder/estudiantes_list.html"
 
-
-
+class EstudianteDetalle(DetailView):
+    model= Estudiante
+    template_name= "AppCoder/estudiantes_detail.html"
 
 
 

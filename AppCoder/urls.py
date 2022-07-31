@@ -18,7 +18,9 @@ urlpatterns = [
        path('leerProfesores/', leerprofesores, name='leerprofesores' ),
        path('eliminarProfesor/<nombre_profesor>', eliminarProfesor, name='eliminarProfesor' ),
        path('editarProfesor/<nombre_profesor>', editarProfesor, name='editarProfesor' ),
-
+       #------------------------------------------------
+       path('estudiante/list/', EstudianteList.as_view(), name='estudiante_listar'),
+       path('estudiante/<pk>', EstudianteDetalle.as_view(), name='estudiante_detalle'),
 
 
 ]
