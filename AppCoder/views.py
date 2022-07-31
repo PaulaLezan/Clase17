@@ -3,7 +3,9 @@ from django.shortcuts import render, HttpResponse
 from .models import Curso, Estudiante, Profesor   
 from AppCoder.forms import CursoForm, ProfeForm
 from django.http import HttpResponse
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView,DeleteView
+from django.urls import reverse_lazy
+
 
 # Create your views here.
 
@@ -118,10 +120,23 @@ class EstudianteList(ListView):
 
 class EstudianteDetalle(DetailView):
     model= Estudiante
-    template_name= "AppCoder/estudiantes_detail.html"
+    template_name= "AppCoder/estudiante_detail.html"
 
 
+class EstudianteCreacion(CreateView):
+    model= Estudiante
+    success_url= reverse_lazy('estudiante_listar')
+    fields= ['nombre', 'apellido', 'email']
 
+class EstudianteUpdate(UpdateView):
+    model= Estudiante
+    success_url= reverse_lazy('estudiante_listar')
+    fields= ['nombre', 'apellido', 'email']
+
+class EstudianteDelete(DeleteView):
+    model= Estudiante
+    success_url= reverse_lazy('estudiante_listar')
+   
 
 
 
