@@ -10,13 +10,13 @@
 
 {% block contenido_que_cambia %}
 
-<h1> FORMULARIO DE PROFES </h1>
+<h1> Editando el Profe: {{ nombre_profesor }} </h1>
 
 {% if formulario.errors %}
     <p style="color: red"> HAY ALGO MAL EN EL FORMULARIO </p>
 {% endif %}
 
-<form action= " {% url 'profeFormulario' %} " method="POST"> {% csrf_token %}
+<form action= "{% url 'editarProfesor' nombre_profesor %}" method="POST"> {% csrf_token %}
     <table> 
 
         {{ formulario.as_table }}
@@ -27,13 +27,6 @@
 
 
 </form>
-
-{% for profesor in profesores %}
-
-    <li>{{ profesor }}</li>
-
-
-{% endfor %}
 
 {% endblock %}
 

@@ -2,7 +2,7 @@ from http.client import HTTPResponse
 from django.shortcuts import render, HttpResponse
 from .models import Curso, Profesor   
 from AppCoder.forms import CursoForm, ProfeForm
-
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -56,7 +56,6 @@ def profeFormulario (request):
 
         if form.is_valid(): #si pasa la validacion de Django
             info=form.cleaned_data    #traigo a una variable info, la info del formulario (limpiame los datos y guardalos aca)
-            print(info)
             nombre= info["nombre"]
             apellido= info["apellido"]
             email= info["email"]
@@ -74,12 +73,57 @@ def busquedaComision (request):
      return render (request, "AppCoder/busquedacomision.html")
 
 def buscar (request):
-    comision= request.GET.get("comision")
-    respuesta= f"Estoy buscando la comision:{comision}"
-    return HttpResponse (respuesta)
+    if request.GET ["comision"]:   #si tengo algo en comision
+        comi= request.GET ["comision"] #que me la traiga
+        cursos= Curso.objects.filter(comision= comi) #del models Curso, traeme todo los objetos (de curso) que cumplan esa condicion y lo incluye en una lista
+        return render (request, 'AppCoder/inicio.html', {"cursos":cursos, "comision": comi})
+        
+    else: 
+        return render(request, 'AppCoder/busquedaComision.html', {"error":"No se ingreso ninguna comision"})
+
+
+def leerprofesores(request): 
+    profesores =Profesor.objects.all()
+    return render (request, "AppCoder/leerprofesores.html", {"profesores":profesores})
+    
+def eliminarProfesor(request, nombre_profesor):
+    profe=Profesor.objects.get(nombre= nombre_profesor)
+    profe.delete()
+    profesores =Profesor.objects.all()
+    return render (request, "AppCoder/leerprofesores.html", {"profesores":profesores})
+
+def editarProfesor (request, nombre_profesor):
+    profe=Profesor.objects.get(nombre= nombre_profesor)     
+
+    if request.method=="POST":
+        form= ProfeForm(request.POST)
+        if form. is_valid ():
+            info=form.cleaned_data    #traigo a una variable info, la info del formulario (limpiame los datos y guardalos aca)
+            profe.nombre= info["nombre"] #al dato que me trae de la base, le agrego el dato se que modifica y lo guardo.
+            profe.apellido= info["apellido"]
+            profe.email= info["email"]
+            profe.profesion= info["profesion"]
+            profe.save()
+            return render (request, "AppCoder/inicio.html")
+    else:
+        form= ProfeForm (initial={"nombre":profe.nombre, "apellido": profe.apellido, "email":profe.email, "profesion": profe.profesion})
+    return render (request, 'AppCoder/editarProfesor.html', {"formulario":form, "nombre_profesor":nombre_profesor}) 
 
 
 
+
+
+
+
+
+
+
+
+"""respuesta= "\n No enviaste Datos"
+        return HttpResponse(respuesta)"""
+""" return render(request, 'AppCoder/busquedaComision.html', {"error":"No se ingreso ninguna comision"})"""
+
+"""#si tengo algo en comision  me va a buscar en la url que contenga comision, porque viene por GET. #que me la traiga"""
 
 """ if request.GET ("comision"):   #si tengo algo en comision
         comi= request.GET ("comision") #que me la traiga

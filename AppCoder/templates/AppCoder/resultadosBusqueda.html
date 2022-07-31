@@ -14,8 +14,8 @@
 
     <ul>
         {% for curso in cursos %}
-        <p>{{ curso.nombre }}</p>
-        <p>{{ curso.comision }}</p>
+            <li>{{ curso.nombre }}</li>
+            <li>{{ curso.comision }}</li>
             <br>
         {% endfor %}
 
@@ -24,7 +24,7 @@
     <p>No hay cursos con esa descripcion</p>
     {% endif %}
 
-  
+    <p style="color:red">Error:No se ingreso ninguna comision</p> 
 
 
 </body>

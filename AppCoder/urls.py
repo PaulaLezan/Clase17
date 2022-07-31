@@ -3,6 +3,7 @@ from .views import  *
 
 
 
+
 urlpatterns = [
        path('curso/', curso), 
        path('cursos/', cursos, name='cursos'),
@@ -14,6 +15,9 @@ urlpatterns = [
        path('profeFormulario/', profeFormulario, name='profeFormulario'),
        path ('busquedaComision/', busquedaComision, name='busquedaComision'), 
        path ('buscar/', buscar, name= 'buscar'), 
+       path('leerProfesores/', leerprofesores, name='leerprofesores' ),
+       path('eliminarProfesor/<nombre_profesor>', eliminarProfesor, name='eliminarProfesor' ),
+       path('editarProfesor/<nombre_profesor>', editarProfesor, name='editarProfesor' ),
 
 
 
