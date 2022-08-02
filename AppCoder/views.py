@@ -5,6 +5,8 @@ from AppCoder.forms import CursoForm, ProfeForm
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView,DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, logout, authenticate
 
 
 # Create your views here.
@@ -136,7 +138,58 @@ class EstudianteUpdate(UpdateView):
 class EstudianteDelete(DeleteView):
     model= Estudiante
     success_url= reverse_lazy('estudiante_listar')
-   
+
+#---------------------------------------------------------------
+
+def login_request(request):
+
+    if request.method == "POST":
+        form= AuthenticationForm(request, data=request.POST)
+
+        if form.is_valid():
+            usu= request.POST['username']
+            clave= request.POST['password']
+
+            usuario= authenticate(username=usu, password=clave)
+
+            if usuario is not None:
+                login (request, usuario)
+                return render (request, "AppCoder/inicio.html", {'form':form, 'mensaje': f"Bienvenido {usuario}"})
+            else:
+                return render (request, "AppCoder/login.html", {'form':form,'mensaje':"Error: datos incorrectos"})
+        
+        else:
+            return render (request, "AppCoder/login.html", {'form':form,'mensaje' :"Error: formulario erroneo"})
+    else:
+        form=AuthenticationForm()
+        return render (request, "AppCoder/login.html", {"form":form})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

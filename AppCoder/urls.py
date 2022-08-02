@@ -24,4 +24,7 @@ urlpatterns = [
        path('estudiante/nuevo/', EstudianteCreacion.as_view(), name='estudiante_crear'),
        path('estudiante/editar/<pk>', EstudianteUpdate.as_view(), name='estudiante_editar'),
        path('estudiante/borrar/<pk>', EstudianteDelete.as_view(), name='estudiante_borrar'),
+       #------------------------------------------------
+       path('login/', login_request , name='login' ),
+
 ]
