@@ -1,11 +1,15 @@
 from http.client import HTTPResponse
 from django.shortcuts import render, HttpResponse
+
+from AppCoder.forms import UserRegisterForm
+
 from .models import Curso, Estudiante, Profesor   
 from AppCoder.forms import CursoForm, ProfeForm
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView,DeleteView
 from django.urls import reverse_lazy
-from django.contrib.auth.forms import AuthenticationForm
+
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm 
 from django.contrib.auth import login, logout, authenticate
 
 
@@ -15,7 +19,7 @@ def curso(self):
     curso= Curso (nombre="Django", comision=939393)
     curso.save()
     texto= f"Curso creado: {curso.nombre} {curso.comision}"
-    return HTTPResponse (texto)
+    return HttpResponse (texto)
 
 def inicio (request):
     return render (request, "AppCoder/inicio.html")
@@ -154,16 +158,30 @@ def login_request(request):
 
             if usuario is not None:
                 login (request, usuario)
-                return render (request, "AppCoder/inicio.html", {'form':form, 'mensaje': f"Bienvenido {usuario}"})
+                return render (request, "AppCoder/inicio.html", {'form':form, 'mensaje': f'Bienvenido {usuario}'})
             else:
-                return render (request, "AppCoder/login.html", {'form':form,'mensaje':"Error: datos incorrectos"})
+                return render (request, "AppCoder/login.html", {'form':form,'mensaje':'Error: datos incorrectos'})
         
         else:
-            return render (request, "AppCoder/login.html", {'form':form,'mensaje' :"Error: formulario erroneo"})
+            return render (request, "AppCoder/login.html", {'form':form,'mensaje' :'Error: formulario erroneo'})
     else:
         form=AuthenticationForm()
-        return render (request, "AppCoder/login.html", {"form":form})
+        return render (request, "AppCoder/login.html", {'form':form})
 
+
+
+def register (request):
+    if request.method == 'POST':
+        form= UserRegisterForm (request.POST)
+
+        if form.is_valid():
+            username =form.cleaned_data.get['username']
+            form.save()
+            return render (request, "AppCoder/inicio.html", {'form':form, 'mensaje': f'Usuario Creado: {username}'})
+
+    else:
+        form= UserRegisterForm()
+    return render (request, "AppCoder/register.html", {'form':form} )
 
 
 
