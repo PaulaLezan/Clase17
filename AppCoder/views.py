@@ -3,8 +3,9 @@ from django.shortcuts import render, HttpResponse
 
 from AppCoder.forms import UserRegisterForm
 
+
 from .models import Curso, Estudiante, Profesor   
-from AppCoder.forms import CursoForm, ProfeForm
+from AppCoder.forms import CursoForm, ProfeForm, UserEditForm
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView,DeleteView
 from django.urls import reverse_lazy
@@ -33,6 +34,7 @@ def cursos (request):
 
 @login_required
 def profesores (request):
+    avatar = Avatar.objects.filter(user=request.user.id)[0].imagen.url
     return render (request, "AppCoder/profesores.html")
     
 def estudiantes (request):
@@ -61,7 +63,7 @@ def cursoFormulario (request):
         form= CursoForm() #creo el formulario vacio   
     return render (request, "AppCoder/cursoFormulario.html", {"formulario":form}) #traigo el cursoform, lo renderiso y lo mando por diccionario
             #si va por get, le muestra un form vacio y lo llena, cuando lo llena, vuelve a entrar pero por POST. 
-            
+
 @login_required
 def profeFormulario (request):
 
@@ -192,7 +194,23 @@ def register (request):
         form= UserRegisterForm()
     return render (request, "AppCoder/register.html", {'form':form} )
 
+@login_required
+def editarPerfil (request):
+    usuario= request.user
 
+    if request.method == 'POST':
+        formulario = UserEditForm (request.POST, instance= usuario)
+        if formulario.is_valid ():
+            informacion= formulario.cleaned_data
+            usuario.email=informacion ['email']
+            usuario.password1=informacion ['password1']
+            usuario.password2=informacion ['password2']
+            usuario.save()
+
+            return render (request, 'AppCoder/editarPerfil.html', {'formulario':formulario, 'mensaje': 'PERFIL EDITADO EXITOSAMENTE'} )
+    else:
+        formulario=UserEditForm (instance=usuario)
+    return render (request, 'AppCoder/editarPerfil.html', {'formulario':formulario, 'usuario':usuario.username} )    
 
 
 
